@@ -10,24 +10,18 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 {
     [field: SerializeField] public float Speed { get; private set; }
     [field: SerializeField] public float Health { get; private set; }
-    public bool IsAlive => Health > 0;
 
     [SerializeField] private float _deathDelay;
 
-    private NavMeshAgent _agent;
-    private Transform _targetFollowing;
-
     public event UnityAction OnDeath;
 
-    private void Awake()
-    {
-        _agent = gameObject.GetComponent<NavMeshAgent>();
-        _agent.speed = Speed;
-    }
+    protected NavMeshAgent _agent;
+
+    private Transform _targetFollowing;
 
     public bool ApplyDamage(float damage)
     {
-        if (!IsAlive)
+        if (Health <= 0)
             return false;
 
         damage = Math.Abs(damage);
@@ -45,7 +39,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
     public void MoveTo(Vector3 pointTarget)
     {
-        _agent.destination = pointTarget;
+        _agent.SetDestination(pointTarget);
     }
 
     public void FollowTo(Transform target)
@@ -58,6 +52,13 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
     public void StopFollow()
     {
         StopCoroutine(Follow(_targetFollowing));
+        _targetFollowing = null;
+    }
+
+    protected void Awake()
+    {
+        _agent = gameObject.GetComponent<NavMeshAgent>();
+        _agent.speed = Speed;
     }
 
     private IEnumerator Follow(Transform target)

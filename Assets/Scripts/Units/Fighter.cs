@@ -7,31 +7,16 @@ public abstract class Fighter : Unit
     [Tooltip("Count attack per second")]
     [SerializeField] private float _attackSpeed = 3;
     [SerializeField] private float _attackRange = 2;
+    [SerializeField] protected UnitSensor _sensor;
     //[SerializeField] private float _changeTargetRange = 3;
 
     private Transform _mainTarget;
     private bool _canAttack = true;
 
     /// <summary>
-    /// Tries to attack the specified target
+    /// Set the target that the unit will follow and attack
     /// </summary>
-    /// <param name="target">Target for attack</param>
-    /// <returns>Was it possible to attack</returns>
-    public bool TryAttack(IDamageable target)
-    {
-        if (_canAttack)
-        {
-            StartCoroutine(DelayAttack());
-            Attack();
-        }
-
-        return _canAttack;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="target"></param>
+    /// <param name="target">Target for follow and attack</param>
     public void SetTarget(Transform target)
     {
         _mainTarget = target;
@@ -39,6 +24,23 @@ public abstract class Fighter : Unit
     }
 
     protected abstract void Attack();
+
+    protected void Awake()
+    {
+        base.Awake();
+        _sensor.UnitEnter.AddListener(TryAttack);
+        _agent.stoppingDistance = _attackRange;
+    }
+
+    private void TryAttack(Unit target)
+    {
+        if (_canAttack)
+        {
+            StartCoroutine(DelayAttack());
+            Attack();
+        }
+
+    }
 
     private IEnumerator DelayAttack()
     {

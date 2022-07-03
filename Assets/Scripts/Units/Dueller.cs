@@ -8,7 +8,8 @@ public class Dueller : Fighter
 
     private void Start()
     {
-        FollowTo(_target);
+        if (_target != null)
+            FollowTo(_target);
     }
 
     protected override void Attack()
