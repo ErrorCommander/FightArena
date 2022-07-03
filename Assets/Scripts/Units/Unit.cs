@@ -6,18 +6,16 @@ using UnityEngine.AI;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class Warrior : MonoBehaviour, IDamageable, IMovable
+public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 {
     [field: SerializeField] public float Speed { get; private set; }
     [field: SerializeField] public float Health { get; private set; }
-    [field: SerializeField] public float Damage { get; private set; }
     public bool IsAlive => Health > 0;
 
     [SerializeField] private float _deathDelay;
-    [SerializeField] private float _attackRange = 2;
-    [SerializeField] private float _changeTargetRange = 3;
 
     private NavMeshAgent _agent;
+    private Transform _targetFollowing;
 
     public event UnityAction OnDeath;
 
@@ -27,10 +25,10 @@ public class Warrior : MonoBehaviour, IDamageable, IMovable
         _agent.speed = Speed;
     }
 
-    public void ApplyDamage(float damage)
+    public bool ApplyDamage(float damage)
     {
         if (!IsAlive)
-            return;
+            return false;
 
         damage = Math.Abs(damage);
         Health -= damage;
@@ -40,7 +38,9 @@ public class Warrior : MonoBehaviour, IDamageable, IMovable
             Health = 0;
             OnDeath?.Invoke();
             StartCoroutine(Death(_deathDelay));
+            return true;
         }
+        else return false;
     }
 
     public void MoveTo(Vector3 pointTarget)
@@ -48,23 +48,32 @@ public class Warrior : MonoBehaviour, IDamageable, IMovable
         _agent.destination = pointTarget;
     }
 
-    public void MoveTo(Transform target)
+    public void FollowTo(Transform target)
     {
+        StopFollow();
+        _targetFollowing = target;
+        StartCoroutine(Follow(target));
+    }
 
+    public void StopFollow()
+    {
+        StopCoroutine(Follow(_targetFollowing));
+    }
+
+    private IEnumerator Follow(Transform target)
+    {
+        while (target != null)
+        {
+            _agent.destination = target.position;
+            yield return null;
+        }
+
+        _agent.destination = transform.position;
     }
 
     private IEnumerator Death(float delay)
     {
         yield return new WaitForSeconds(delay);
         Destroy(gameObject);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _attackRange);
-        
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _changeTargetRange);
     }
 }
