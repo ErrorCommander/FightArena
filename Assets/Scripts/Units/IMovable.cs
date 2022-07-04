@@ -10,5 +10,8 @@ public interface IMovable
 
     /// <summary>Assign the unit a target to follow.</summary>
     /// <param name="target"> Target to follow.</param>
-    public void MoveTo(Transform target);
+    public void FollowTo(Transform target);
+
+    /// <summary>Cancels following the current target.</summary>
+    public void StopFollow();
 }
