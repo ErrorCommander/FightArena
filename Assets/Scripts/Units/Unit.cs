@@ -9,11 +9,14 @@ using UnityEngine.Events;
 public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 {
     [field: SerializeField] public float Speed { get; private set; }
-    [field: SerializeField] public float Health { get; private set; }
 
-    [SerializeField] private float _deathDelay;
+    [SerializeField] protected float _maxHealth = 100;
+    [SerializeField] private float _deathDelay = 1f;
 
-    [HideInInspector] public UnityEvent OnDeath;
+    public float Health { get; protected set; }
+    public float PartHealth => Health / _maxHealth;
+    [HideInInspector] public UnityEvent OnDie;
+    [HideInInspector] public UnityEvent OnTakeDamage;
 
     protected NavMeshAgent _agent;
 
@@ -26,12 +29,13 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
         damage = Math.Abs(damage);
         Health -= damage;
+        OnTakeDamage?.Invoke();
         //Debug.Log(name + Health);
 
         if (Health <= 0)
         {
             Health = 0;
-            OnDeath?.Invoke();
+            OnDie?.Invoke();
             StartCoroutine(Death(_deathDelay));
             return true;
         }
@@ -78,5 +82,10 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
         yield return new WaitForSeconds(delay);
         //Destroy(gameObject);
         gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        Health = _maxHealth;
     }
 }

@@ -4,8 +4,11 @@ using UnityEngine.Events;
 
 public abstract class Fighter : Unit
 {
+    [HideInInspector] public UnityEvent FinishingStrike = new UnityEvent();
+    public int Score { get; protected set; }
+
     [Header("Attack settings")]
-    [SerializeField] protected float _damage;
+    [SerializeField] protected float _damage = 5;
     [Tooltip("Count attack per second")]
     [SerializeField] private float _attackSpeed = 3;
     [SerializeField] private float _attackRange = 2;
@@ -15,7 +18,6 @@ public abstract class Fighter : Unit
     protected bool _canAttack = true;
     protected UnityEvent _readyToAttack = new UnityEvent();
 
-    [HideInInspector] public UnityEvent FinishingStrike = new UnityEvent();
 
     /// <summary>
     /// Set the target that the unit will follow and attack
@@ -32,7 +34,7 @@ public abstract class Fighter : Unit
     {
         base.Awake();
         _agent.stoppingDistance = _attackRange;
-        OnDeath.AddListener(StopAttack);
+        OnDie.AddListener(StopAttack);
     }
 
     protected void DelayAfterAttack()
@@ -75,9 +77,11 @@ public abstract class Fighter : Unit
 
     private void OnEnable()
     {
+        Health = _maxHealth;
         _canAttack = true;
         _sensor.UnitEnter.AddListener(Attack);
         _readyToAttack.AddListener(AttackReadiness);
+        Score = 0;
 
         if (_target != null)
             FollowTo(_target);
