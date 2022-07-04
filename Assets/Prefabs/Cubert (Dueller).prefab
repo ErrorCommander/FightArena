@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4211543344388548860}
   - component: {fileID: 2344370951325252427}
   - component: {fileID: 7093810631399193119}
+  - component: {fileID: 386697896921708290}
   m_Layer: 7
   m_Name: Cubert (Dueller)
   m_TagString: Untagged
@@ -72,9 +73,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 10
-  <Health>k__BackingField: 100
+  _maxHealth: 100
   _deathDelay: 2
-  OnDeath:
+  OnDie:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  FinishingStrike:
     m_PersistentCalls:
       m_Calls: []
   _damage: 12
@@ -82,9 +89,6 @@ MonoBehaviour:
   _attackRange: 2.1
   _sensor: {fileID: 1517307160180535339}
   _target: {fileID: 0}
-  FinishingStrike:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!65 &2344370951325252427
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -114,6 +118,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &386697896921708290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022879764688456470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80658c56cea8ad40af2832988130e58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateBarPrefab: {fileID: 1566829606591655318, guid: 7c841fccaa44a0142a62e33a2081d131, type: 3}
+  _offseetStatebar: {x: 0, y: 2.5, z: 0}
+  _target: {fileID: 4211543344388548860}
 --- !u!1 &4337541591125996341
 GameObject:
   m_ObjectHideFlags: 0

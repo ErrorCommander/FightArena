@@ -9,6 +9,7 @@ public class Dueller : Fighter
             //Debug.Log($"{name} attack({_damage}) -> {unit.name}");
             if (unit.ApplyDamage(_damage))
             {
+                Score++;
                 FinishingStrike?.Invoke();
             }
             DelayAfterAttack();
