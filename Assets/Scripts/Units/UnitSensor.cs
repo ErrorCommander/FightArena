@@ -72,12 +72,11 @@ public class UnitSensor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!_units.ContainsKey(other.transform))
+        if (_units.ContainsKey(other.transform))
         {
             UnitExit?.Invoke(_units[other.transform]);
+            _units.Remove(other.transform);
         }
-        
-        _units.Remove(other.transform);
     }
 
     private void OnEnable()

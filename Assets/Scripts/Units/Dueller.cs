@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Dueller : Fighter
@@ -8,8 +6,11 @@ public class Dueller : Fighter
     {
         if (_canAttack)
         {
-            Debug.Log($"{name} attack({_damage}) -> {unit.name}");
-            unit.ApplyDamage(_damage);
+            //Debug.Log($"{name} attack({_damage}) -> {unit.name}");
+            if (unit.ApplyDamage(_damage))
+            {
+                FinishingStrike?.Invoke();
+            }
             DelayAfterAttack();
         }
     }

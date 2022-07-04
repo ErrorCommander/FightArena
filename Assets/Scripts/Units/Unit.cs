@@ -13,7 +13,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
     [SerializeField] private float _deathDelay;
 
-    public UnityEvent OnDeath;
+    [HideInInspector] public UnityEvent OnDeath;
 
     protected NavMeshAgent _agent;
 
@@ -26,7 +26,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
         damage = Math.Abs(damage);
         Health -= damage;
-        Debug.Log(name + Health);
+        //Debug.Log(name + Health);
 
         if (Health <= 0)
         {
@@ -64,7 +64,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
     private IEnumerator Follow(Transform target)
     {
-        while (target != null)
+        while (target != null && target.gameObject.activeSelf)
         {
             _agent.destination = target.position;
             yield return null;

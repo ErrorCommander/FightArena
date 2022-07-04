@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public abstract class Fighter : Unit
 {
+    [Header("Attack settings")]
     [SerializeField] protected float _damage;
     [Tooltip("Count attack per second")]
     [SerializeField] private float _attackSpeed = 3;
@@ -12,7 +13,9 @@ public abstract class Fighter : Unit
     [SerializeField] private Transform _target;
 
     protected bool _canAttack = true;
-    protected UnityEvent ReadyToAttack = new UnityEvent();
+    protected UnityEvent _readyToAttack = new UnityEvent();
+
+    [HideInInspector] public UnityEvent FinishingStrike = new UnityEvent();
 
     /// <summary>
     /// Set the target that the unit will follow and attack
@@ -59,14 +62,14 @@ public abstract class Fighter : Unit
         _canAttack = false;
         yield return new WaitForSeconds(1 / _attackSpeed);
         _canAttack = true;
-        ReadyToAttack?.Invoke();
+        _readyToAttack?.Invoke();
     }
 
     private void StopAttack()
     {
         StopCoroutine(TempDisableAttack());
         _sensor.UnitEnter.RemoveListener(Attack);
-        ReadyToAttack.RemoveListener(AttackReadiness);
+        _readyToAttack.RemoveListener(AttackReadiness);
         _canAttack = false;
     }
 
@@ -74,7 +77,7 @@ public abstract class Fighter : Unit
     {
         _canAttack = true;
         _sensor.UnitEnter.AddListener(Attack);
-        ReadyToAttack.AddListener(AttackReadiness);
+        _readyToAttack.AddListener(AttackReadiness);
 
         if (_target != null)
             FollowTo(_target);
