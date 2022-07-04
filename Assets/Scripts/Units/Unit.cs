@@ -13,7 +13,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
     [SerializeField] private float _deathDelay;
 
-    public event UnityAction OnDeath;
+    public UnityEvent OnDeath;
 
     protected NavMeshAgent _agent;
 
@@ -26,6 +26,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
         damage = Math.Abs(damage);
         Health -= damage;
+        Debug.Log(name + Health);
 
         if (Health <= 0)
         {
@@ -75,6 +76,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
     private IEnumerator Death(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -2800,7 +2800,7 @@ GameObject:
   - component: {fileID: 1478285390}
   - component: {fileID: 1478285394}
   - component: {fileID: 1478285395}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3496,7 +3496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4022879764688456470, guid: 5bf915c0211efed44a8a965e372850cd, type: 3}
       propertyPath: m_Name
-      value: Cubert (Dueller) (1)
+      value: Flexo
       objectReference: {fileID: 0}
     - target: {fileID: 4211543344388548860, guid: 5bf915c0211efed44a8a965e372850cd, type: 3}
       propertyPath: _target
@@ -3654,7 +3654,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4022879764688456470, guid: 5bf915c0211efed44a8a965e372850cd, type: 3}
       propertyPath: m_Name
-      value: Cubert (Dueller) (2)
+      value: Stan
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bf915c0211efed44a8a965e372850cd, type: 3}
@@ -3711,7 +3711,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4022879764688456470, guid: 5bf915c0211efed44a8a965e372850cd, type: 3}
       propertyPath: m_Name
-      value: Cubert (Dueller)
+      value: Cubert
       objectReference: {fileID: 0}
     - target: {fileID: 4211543344388548860, guid: 5bf915c0211efed44a8a965e372850cd, type: 3}
       propertyPath: _target

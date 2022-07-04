@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Fighter : Unit
 {
@@ -8,10 +9,10 @@ public abstract class Fighter : Unit
     [SerializeField] private float _attackSpeed = 3;
     [SerializeField] private float _attackRange = 2;
     [SerializeField] protected UnitSensor _sensor;
-    //[SerializeField] private float _changeTargetRange = 3;
+    [SerializeField] private Transform _target;
 
-    private Transform _mainTarget;
-    private bool _canAttack = true;
+    protected bool _canAttack = true;
+    protected UnityEvent ReadyToAttack = new UnityEvent();
 
     /// <summary>
     /// Set the target that the unit will follow and attack
@@ -19,42 +20,74 @@ public abstract class Fighter : Unit
     /// <param name="target">Target for follow and attack</param>
     public void SetTarget(Transform target)
     {
-        _mainTarget = target;
         FollowTo(target);
     }
 
-    protected abstract void Attack();
+    protected abstract void Attack(Unit unit);
 
     protected void Awake()
     {
         base.Awake();
-        _sensor.UnitEnter.AddListener(TryAttack);
         _agent.stoppingDistance = _attackRange;
+        OnDeath.AddListener(StopAttack);
     }
 
-    private void TryAttack(Unit target)
+    protected void DelayAfterAttack()
     {
-        if (_canAttack)
+        StartCoroutine(TempDisableAttack());
+    }
+
+    private void AttackReadiness()
+    {
+        var units = _sensor.GetUnitsInArea();
+        if (units == null || units.Count == 0)
+            return;
+
+        foreach (var item in units)
         {
-            StartCoroutine(DelayAttack());
-            Attack();
+            if (item.transform == _target)
+            {
+                Attack(item);
+            }
         }
 
+        Attack(units[0]);
     }
 
-    private IEnumerator DelayAttack()
+    private IEnumerator TempDisableAttack()
     {
         _canAttack = false;
         yield return new WaitForSeconds(1 / _attackSpeed);
         _canAttack = true;
+        ReadyToAttack?.Invoke();
+    }
+
+    private void StopAttack()
+    {
+        StopCoroutine(TempDisableAttack());
+        _sensor.UnitEnter.RemoveListener(Attack);
+        ReadyToAttack.RemoveListener(AttackReadiness);
+        _canAttack = false;
+    }
+
+    private void OnEnable()
+    {
+        _canAttack = true;
+        _sensor.UnitEnter.AddListener(Attack);
+        ReadyToAttack.AddListener(AttackReadiness);
+
+        if (_target != null)
+            FollowTo(_target);
+    }
+
+    private void OnDisable()
+    {
+        StopAttack();
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
-
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawWireSphere(transform.position, _changeTargetRange);
     }
 }

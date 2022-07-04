@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class Dueller : Fighter
 {
-    [SerializeField] private Transform _target;
-
-    private void Start()
+    protected override void Attack(Unit unit)
     {
-        if (_target != null)
-            FollowTo(_target);
-    }
-
-    protected override void Attack()
-    {
-
+        if (_canAttack)
+        {
+            Debug.Log($"{name} attack({_damage}) -> {unit.name}");
+            unit.ApplyDamage(_damage);
+            DelayAfterAttack();
+        }
     }
 }

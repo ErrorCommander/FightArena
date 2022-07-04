@@ -74,7 +74,7 @@ MonoBehaviour:
   <Speed>k__BackingField: 10
   <Health>k__BackingField: 100
   _deathDelay: 2
-  _damage: 20
+  _damage: 12
   _attackSpeed: 2
   _attackRange: 2.1
   _sensor: {fileID: 1517307160180535339}
@@ -250,3 +250,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _radius: 2.5
+  UnitEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  UnitExit:
+    m_PersistentCalls:
+      m_Calls: []

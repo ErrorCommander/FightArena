@@ -18,7 +18,6 @@ public class UnitSensor : MonoBehaviour
         _collider = gameObject.GetComponent<SphereCollider>();
         _collider.isTrigger = true;
         _collider.radius = _radius;
-        _units = new Dictionary<Transform, Unit>();
     }
 
     public List<Unit> GetUnitsInArea()
@@ -28,7 +27,7 @@ public class UnitSensor : MonoBehaviour
 
         foreach (var unit in _units)
         {
-            if (unit.Key != null && unit.Value.gameObject.activeSelf)
+            if (unit.Key != null && unit.Value.gameObject.activeSelf && unit.Value.Health > 0)
                 updatedListUnits.Add(unit.Value);
             else
                 removeList.Add(unit.Key);
@@ -59,9 +58,8 @@ public class UnitSensor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(name + "   Enter Collider: " + other.name);
-        //Debug.Log(other.name + other.gameObject.layer);
         Unit unit;
+
         if (other.TryGetComponent<Unit>(out unit))
         {
             if (!_units.ContainsKey(other.transform))
@@ -74,8 +72,21 @@ public class UnitSensor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        //Debug.Log(name + "   Exit Collider: " + other.name);
-        UnitExit?.Invoke(_units[other.transform]);
+        if (!_units.ContainsKey(other.transform))
+        {
+            UnitExit?.Invoke(_units[other.transform]);
+        }
+        
         _units.Remove(other.transform);
+    }
+
+    private void OnEnable()
+    {
+        _units = new Dictionary<Transform, Unit>();
+    }
+
+    private void OnDisable()
+    {
+        _units.Clear();
     }
 }

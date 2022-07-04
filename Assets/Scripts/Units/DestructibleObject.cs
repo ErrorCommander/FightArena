@@ -12,6 +12,7 @@ public class DestructibleObject : MonoBehaviour, IDamageable
 
         damage = Math.Abs(damage/2);
         Health -= damage;
+        Debug.Log(name + Health);
 
         if (Health <= 0)
         {
