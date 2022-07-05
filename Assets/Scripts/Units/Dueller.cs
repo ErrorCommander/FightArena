@@ -6,7 +6,6 @@ public class Dueller : Fighter
     {
         if (_canAttack)
         {
-            //Debug.Log($"{name} attack({_damage}) -> {unit.name}");
             if (unit.ApplyDamage(_damage))
             {
                 Score++;

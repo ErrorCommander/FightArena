@@ -87,6 +87,7 @@ MonoBehaviour:
   _damage: 12
   _attackSpeed: 2
   _attackRange: 2.1
+  _drawAttackRange: 1
   _sensor: {fileID: 1517307160180535339}
   _target: {fileID: 0}
 --- !u!65 &2344370951325252427

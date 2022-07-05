@@ -12,12 +12,13 @@ public abstract class Fighter : Unit
     [Tooltip("Count attack per second")]
     [SerializeField] private float _attackSpeed = 3;
     [SerializeField] private float _attackRange = 2;
+    [Tooltip("Draw attack range in UnityEditor")]
+    [SerializeField] private bool _drawAttackRange;
     [SerializeField] protected UnitSensor _sensor;
     [SerializeField] private Transform _target;
 
     protected bool _canAttack = true;
     protected UnityEvent _readyToAttack = new UnityEvent();
-
 
     /// <summary>
     /// Set the target that the unit will follow and attack
@@ -30,7 +31,7 @@ public abstract class Fighter : Unit
 
     protected abstract void Attack(Unit unit);
 
-    protected void Awake()
+    protected new void Awake()
     {
         base.Awake();
         _agent.stoppingDistance = _attackRange;
@@ -92,9 +93,14 @@ public abstract class Fighter : Unit
         StopAttack();
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _attackRange);
+        if (_drawAttackRange) 
+        {
+            UnityEditor.Handles.color = Color.red;
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, _attackRange);
+        }
     }
+#endif
 }
