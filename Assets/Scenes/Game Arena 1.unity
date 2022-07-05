@@ -2865,6 +2865,7 @@ MonoBehaviour:
   _fightersPrefab:
   - {fileID: 4211543344388548860, guid: 5bf915c0211efed44a8a965e372850cd, type: 3}
   - {fileID: 2728692318583887954, guid: b441516dd13d9394798b5882246ffca7, type: 3}
+  _spawnQueue: 1
   _startSpawnCount: 8
 --- !u!4 &1327292434
 Transform:

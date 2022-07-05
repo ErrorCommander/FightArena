@@ -8,26 +8,46 @@ public class SpawnerFightersSystem : MonoBehaviour
 {
     [SerializeField] private List<SpawnerBoxArea> _spawners;
     [SerializeField] private List<Fighter> _fightersPrefab;
-    [SerializeField] [Range(0, 20)] private int _startSpawnCount;
+    [SerializeField] private SpawnQueue _spawnQueue = SpawnQueue.Successively;
+    [SerializeField] [Range(0, 50)] private int _startSpawnCount;
+
+    private int _indexLastSpawner;
 
     private void Start()
     {
-        CycleSpawner(1);
+        Spawn(_startSpawnCount);
     }
 
     private void Spawn()
     {
-        foreach (var spawnPoint in _spawners)
+        switch (_spawnQueue)
         {
-            spawnPoint.SpawnUnit(_fightersPrefab[0]);
+            case SpawnQueue.Random:
+                _indexLastSpawner = Random.Range(0, _spawners.Count);
+                _spawners[_indexLastSpawner].SpawnUnit(_fightersPrefab[Random.Range(0, _fightersPrefab.Count)]);
+                break;
+
+            case SpawnQueue.Successively:
+                _indexLastSpawner++;
+                if (_indexLastSpawner >= _spawners.Count)
+                    _indexLastSpawner = 0;
+                _spawners[_indexLastSpawner].SpawnUnit(_fightersPrefab[Random.Range(0, _fightersPrefab.Count)]);
+                break;
+
+            default:
+                goto case SpawnQueue.Successively;
         }
     }
 
-    private async void CycleSpawner(float delay)
+    private void Spawn(int count)
     {
-        Spawn();
-        await Task.Delay((int)(delay * 1000));
-        if(gameObject != null)
-            CycleSpawner(delay);
+        for (int i = 0; i < count; i++)
+            Spawn();
+    }
+
+    private enum SpawnQueue
+    {
+        Random,
+        Successively
     }
 }
