@@ -30,7 +30,6 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
         damage = Math.Abs(damage);
         Health -= damage;
         OnTakeDamage?.Invoke();
-        //Debug.Log(name + Health);
 
         if (Health <= 0)
         {
@@ -63,6 +62,13 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
         _target = null;
     }
 
+    protected void Heal(float value)
+    {
+        Health += value;
+        if (Health > _maxHealth)
+            Health = _maxHealth;
+    }
+
     protected void Awake()
     {
         _agent = gameObject.GetComponent<NavMeshAgent>();
@@ -71,6 +77,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
     private IEnumerator Follow(Transform target)
     {
         yield return null;
+        _agent.destination = target.position;
+        //Debug.Log(_agent.remainingDistance + "  pathPending " + _agent.pathPending);
 
         while (target != null && target.gameObject.activeSelf)
         {

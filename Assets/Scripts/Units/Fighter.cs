@@ -44,6 +44,7 @@ public abstract class Fighter : Unit
         base.Awake();
         _agent.stoppingDistance = _attackRange;
         OnDie.AddListener(StopAttack);
+        FinishingStrike.AddListener(Upgrade);
     }
 
     protected void DelayAfterAttack()
@@ -106,7 +107,6 @@ public abstract class Fighter : Unit
     {
         _sensor.UnitEnter.AddListener(Attack);
         _readyToAttack.AddListener(AttackReadiness);
-        FinishingStrike.AddListener(Upgrade);
     }
 
     private void SetBaseParametersValue()
@@ -115,11 +115,12 @@ public abstract class Fighter : Unit
         _damage = _baseDamage * Random.Range(factorRange.x, factorRange.y);
         _attackSpeed = _baseAttackSpeed * Random.Range(factorRange.x, factorRange.y);
         Health = _maxHealth * Random.Range(factorRange.x, factorRange.y);
+        //Debug.Log($"{name}  D:{_damage}  AtS:{_attackSpeed}   H:{Health}");
     }
     private void Upgrade()
     {
         _damage += _damageImprove;
-        Health += _healValue;
+        Heal(_healValue);
     }
 
 

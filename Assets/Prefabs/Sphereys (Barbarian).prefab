@@ -84,13 +84,13 @@ MonoBehaviour:
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
-  _divergenceProcent: 20
-  _baseDamage: 10
-  _baseAttackSpeed: 1.4
+  _divergenceProcent: 30
+  _baseDamage: 8
+  _baseAttackSpeed: 2.5
   _attackRange: 2.6
   _drawAttackRange: 1
-  _healValue: 15
-  _damageImprove: 1.8
+  _healValue: 10
+  _damageImprove: 0.6
   _sensor: {fileID: 1517307160180535339}
   FinishingStrike:
     m_PersistentCalls:

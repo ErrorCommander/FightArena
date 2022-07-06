@@ -44,7 +44,8 @@ public class SpawnOnClick : MonoBehaviour
             return;
         }
 
-        _pooler.Spawn(_spawner.SpawnFighter.gameObject, worldPosition, Quaternion.identity);
+        var unit = _pooler.Spawn(_spawner.SpawnFighter.gameObject, worldPosition, Quaternion.identity);
+        _spawner.AddFighter(unit.GetComponent<Fighter>());
     }
 
     private void OnEnable()
