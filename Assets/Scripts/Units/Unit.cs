@@ -76,10 +76,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
     private IEnumerator Follow(Transform target)
     {
-        yield return null;
-        _agent.destination = target.position;
-        //Debug.Log(_agent.remainingDistance + "  pathPending " + _agent.pathPending);
-
+        //yield return null;
         while (target != null && target.gameObject.activeSelf)
         {
             _agent.destination = target.position;

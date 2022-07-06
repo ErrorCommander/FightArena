@@ -56,8 +56,7 @@ public class Pooler : MonoBehaviour
             return null;
 
         var pool = _poolsDictionary[tag];
-        var result = pool.TakeGameObject();
-        result.transform.SetPositionAndRotation(position, rotation);
+        var result = pool.TakeGameObject(position, rotation);
 
         return result;
     }

@@ -74,7 +74,7 @@ public class Pool
     /// Take the active gameObject from the pool. If the pool is empty, a new object will be created.
     /// </summary>
     /// <returns>active gameObject</returns>
-    public GameObject TakeGameObject()
+    public GameObject TakeGameObject(Vector3 position, Quaternion rotation)
     {
         GameObject result = null;
 
@@ -83,6 +83,7 @@ public class Pool
         else
             result = AddGameObject();
 
+        result.transform.SetPositionAndRotation(position, rotation);
         result.SetActive(true);
         return result;
     }
