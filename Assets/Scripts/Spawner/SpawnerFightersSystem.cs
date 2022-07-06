@@ -9,8 +9,8 @@ public class SpawnerFightersSystem : MonoBehaviour
     [SerializeField] private List<Fighter> _fightersPrefab;
     [SerializeField] private SpawnQueue _spawnQueue = SpawnQueue.Successively;
     [SerializeField] [Range(0, 50)] private int _startSpawnCount;
-    [SerializeField] private bool _isSpawnsOverTime;
-    [SerializeField] [Range(0.2f, 10)] private float _delaySpawn = 3f;
+    public bool IsSpawnsOverTime = true;
+    [Range(0.2f, 10)] public float DelaySpawn = 3f;
 
     public Fighter SpawnFighter => _fightersPrefab[Random.Range(0, _fightersPrefab.Count)];
     [HideInInspector] public UnityEvent<Unit> OnSpawnFighter;
@@ -18,6 +18,7 @@ public class SpawnerFightersSystem : MonoBehaviour
     private int _indexLastSpawner;
     private uint _indexUnit;
     private float _timer = 0;
+    private int _initPoolSize = 4;
 
     /// <summary>
     /// Add a fighter to be registered in the system
@@ -35,7 +36,7 @@ public class SpawnerFightersSystem : MonoBehaviour
     private void Awake()
     {
         foreach(var unit in _fightersPrefab)
-            Pooler.Instance.AddPool(new Pool(unit.gameObject, 3));
+            Pooler.Instance.AddPool(new Pool(unit.gameObject, _initPoolSize));
     }
 
     private void Start()
@@ -45,11 +46,11 @@ public class SpawnerFightersSystem : MonoBehaviour
 
     private void Update()
     {
-        if (_isSpawnsOverTime)
+        if (IsSpawnsOverTime)
         {
             _timer += Time.deltaTime;
 
-            if (_delaySpawn <= _timer)
+            if (DelaySpawn <= _timer)
             {
                 _timer = 0;
                 Spawn();

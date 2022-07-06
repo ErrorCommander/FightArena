@@ -10,7 +10,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 {
     [SerializeField] private bool _drawLineToTarget = true;
     [SerializeField] protected Transform _target;
-    [field: SerializeField] public float Speed { get; private set; }
+    [field: SerializeField] public float MoveSpeed { get; private set; }
 
     [SerializeField] protected float _maxHealth = 100;
     [SerializeField] private float _deathDelay = 1f;
@@ -30,7 +30,6 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
         damage = Math.Abs(damage);
         Health -= damage;
         OnTakeDamage?.Invoke();
-        //Debug.Log(name + Health);
 
         if (Health <= 0)
         {
@@ -63,6 +62,13 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
         _target = null;
     }
 
+    protected void Heal(float value)
+    {
+        Health += value;
+        if (Health > _maxHealth)
+            Health = _maxHealth;
+    }
+
     protected void Awake()
     {
         _agent = gameObject.GetComponent<NavMeshAgent>();
@@ -70,8 +76,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
     private IEnumerator Follow(Transform target)
     {
-        yield return null;
-
+        //yield return null;
         while (target != null && target.gameObject.activeSelf)
         {
             _agent.destination = target.position;
@@ -92,7 +97,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
     protected void OnEnable()
     {
         Health = _maxHealth;
-        _agent.speed = Speed;
+        _agent.speed = MoveSpeed;
     }
 
     protected void OnDrawGizmos()

@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4022879764688456470}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15, y: 0, z: -8}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -50,7 +50,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 3
-  m_Acceleration: 100
+  m_Acceleration: 120
   avoidancePriority: 50
   m_AngularSpeed: 360
   m_StoppingDistance: 0
@@ -75,8 +75,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _drawLineToTarget: 0
   _target: {fileID: 0}
-  <Speed>k__BackingField: 8
-  _maxHealth: 120
+  <MoveSpeed>k__BackingField: 7
+  _maxHealth: 250
   _deathDelay: 2
   OnDie:
     m_PersistentCalls:
@@ -84,14 +84,17 @@ MonoBehaviour:
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
+  _divergenceProcent: 30
+  _baseDamage: 8
+  _baseAttackSpeed: 2.5
+  _attackRange: 2.6
+  _drawAttackRange: 1
+  _healValue: 10
+  _damageImprove: 0.6
+  _sensor: {fileID: 1517307160180535339}
   FinishingStrike:
     m_PersistentCalls:
       m_Calls: []
-  _damage: 8
-  _attackSpeed: 1.4
-  _attackRange: 2
-  _drawAttackRange: 1
-  _sensor: {fileID: 1517307160180535339}
 --- !u!54 &7093810631399193119
 Rigidbody:
   m_ObjectHideFlags: 0
