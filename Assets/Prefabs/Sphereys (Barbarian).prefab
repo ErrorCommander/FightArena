@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7093810631399193119}
   - component: {fileID: 3584464931350046687}
   - component: {fileID: -2523319553151097525}
+  - component: {fileID: 2776337529671623588}
   m_Layer: 7
   m_Name: Sphereys (Barbarian)
   m_TagString: Untagged
@@ -72,6 +73,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0137033b235e1ed44a8bef8c64cd60d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _drawLineToTarget: 0
+  _target: {fileID: 0}
   <Speed>k__BackingField: 8
   _maxHealth: 120
   _deathDelay: 2
@@ -87,8 +90,8 @@ MonoBehaviour:
   _damage: 8
   _attackSpeed: 1.4
   _attackRange: 2
+  _drawAttackRange: 1
   _sensor: {fileID: 1517307160180535339}
-  _target: {fileID: 0}
 --- !u!54 &7093810631399193119
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -133,6 +136,18 @@ MonoBehaviour:
   _stateBarPrefab: {fileID: 1566829606591655318, guid: 7c841fccaa44a0142a62e33a2081d131, type: 3}
   _offseetStatebar: {x: 0, y: 2.5, z: 0}
   _target: {fileID: 2728692318583887954}
+--- !u!114 &2776337529671623588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022879764688456470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f2246a04aa414543a4563719a2d36b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4337541591125996341
 GameObject:
   m_ObjectHideFlags: 0
