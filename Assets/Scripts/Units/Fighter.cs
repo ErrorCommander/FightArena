@@ -13,6 +13,9 @@ public abstract class Fighter : Unit
     [SerializeField] private float _attackRange = 2;
     [Tooltip("Draw attack range in UnityEditor")]
     [SerializeField] private bool _drawAttackRange;
+    [Header("Bounty for killing")]
+    [SerializeField] private float _healValue = 10;
+    [SerializeField] private float _damageImprove = 2;
     [SerializeField] protected UnitSensor _sensor;
 
     [HideInInspector] public UnityEvent FinishingStrike = new UnityEvent();
@@ -84,14 +87,10 @@ public abstract class Fighter : Unit
     {
         base.OnEnable();
         _canAttack = true;
-        _sensor.UnitEnter.AddListener(Attack);
-        _readyToAttack.AddListener(AttackReadiness);
         Score = 0;
 
-        Vector2 factorRange = new Vector2(1 - _divergenceProcent / 100, 1 + _divergenceProcent / 100);
-        _damage = _baseDamage * Random.Range(factorRange.x, factorRange.y);
-        _attackSpeed = _baseAttackSpeed * Random.Range(factorRange.x, factorRange.y);
-        Health = _maxHealth * Random.Range(factorRange.x, factorRange.y);
+        SetBaseParametersValue();
+        Subscriptions();
 
         if (_target != null)
             FollowTo(_target);
@@ -101,6 +100,27 @@ public abstract class Fighter : Unit
     {
         StopAttack();
     }
+
+    private void Subscriptions()
+    {
+        _sensor.UnitEnter.AddListener(Attack);
+        _readyToAttack.AddListener(AttackReadiness);
+        FinishingStrike.AddListener(Upgrade);
+    }
+
+    private void SetBaseParametersValue()
+    {
+        Vector2 factorRange = new Vector2(1 - _divergenceProcent / 100, 1 + _divergenceProcent / 100);
+        _damage = _baseDamage * Random.Range(factorRange.x, factorRange.y);
+        _attackSpeed = _baseAttackSpeed * Random.Range(factorRange.x, factorRange.y);
+        Health = _maxHealth * Random.Range(factorRange.x, factorRange.y);
+    }
+    private void Upgrade()
+    {
+        _damage += _damageImprove;
+        Health += _healValue;
+    }
+
 
 #if UNITY_EDITOR
     private new void OnDrawGizmos()
