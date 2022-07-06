@@ -50,7 +50,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 1
   m_Speed: 3
-  m_Acceleration: 100
+  m_Acceleration: 120
   avoidancePriority: 50
   m_AngularSpeed: 360
   m_StoppingDistance: 0
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _drawLineToTarget: 0
   _target: {fileID: 0}
-  <Speed>k__BackingField: 8
+  <Speed>k__BackingField: 7
   _maxHealth: 120
   _deathDelay: 2
   OnDie:
@@ -84,14 +84,15 @@ MonoBehaviour:
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
-  FinishingStrike:
-    m_PersistentCalls:
-      m_Calls: []
-  _damage: 8
-  _attackSpeed: 1.4
+  _divergenceProcent: 20
+  _baseDamage: 10
+  _baseAttackSpeed: 1.4
   _attackRange: 2
   _drawAttackRange: 1
   _sensor: {fileID: 1517307160180535339}
+  FinishingStrike:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &7093810631399193119
 Rigidbody:
   m_ObjectHideFlags: 0
