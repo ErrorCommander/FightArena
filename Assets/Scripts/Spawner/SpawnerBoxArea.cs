@@ -3,29 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SpawnerBoxArea : MonoBehaviour, ISpawner
+public class SpawnerBoxArea : SpawnerArea
 {
     [SerializeField] private Vector2 _point1;
     [SerializeField] private Vector2 _point2;
-    [SerializeField] private float _spawnDelay;
 
-    private Pooler _pooler;
-
-    /// <summary>
-    /// Spawn copy of the prefeb Fighter in certain space
-    /// </summary>
-    /// <param name="prefab">Refeb Fighter for spawn</param>
-    /// <returns>Transform created Fighter</returns>
-    public Unit SpawnUnit(Unit prefab)
+    public override Unit SpawnUnit(Unit prefab)
     {
         Vector3 pos = GetSpawnPoint();
         Unit unit = _pooler.Spawn(prefab.gameObject, pos, Quaternion.identity).GetComponent<Unit>();
         return unit;
-    }
-
-    private void Awake()
-    {
-        _pooler = Pooler.Instance;
     }
 
     private Vector3 GetSpawnPoint()

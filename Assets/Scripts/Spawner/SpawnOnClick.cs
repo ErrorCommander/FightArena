@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class InputSpawn : MonoBehaviour
+public class SpawnOnClick : MonoBehaviour
 {
+    [SerializeField] private SpawnerFightersSystem _spawner;
     private InputPlayer _input;
     private Camera _camera;
     private float _marginError = 5f;
+    private Pooler _pooler;
 
     private void Awake()
     {
         _input = new InputPlayer();
         _input.Player.Spawn.performed += Click;
         _camera = Camera.main;
+        _pooler = Pooler.Instance;
     }
 
     private void Click(UnityEngine.InputSystem.InputAction.CallbackContext input)
     {
+        if (_spawner == null)
+        {
+            Debug.LogWarning("Spawner not specified");
+            return;
+        }
+
         Vector2 screenPosition = input.ReadValue<Vector2>();
         Debug.Log("Click pos " + screenPosition);
         Ray ray = _camera.ScreenPointToRay(screenPosition);
@@ -30,15 +39,13 @@ public class InputSpawn : MonoBehaviour
         NavMesh.SamplePosition(worldPosition, out hit, _marginError, 1);
         worldPosition = hit.position;
 
-
         if (worldPosition.x == Mathf.Infinity)
         {
             Debug.Log("Not correct spawn point");
             return;
         }
 
-        Debug.Log("Spawn in " + worldPosition);
-        Debug.DrawLine(worldPosition, worldPosition + Vector3.up * 5, Color.red, 10f);
+        _pooler.Spawn(_spawner.SpawnFighter.gameObject, worldPosition, Quaternion.identity);
     }
 
     private void OnEnable()
