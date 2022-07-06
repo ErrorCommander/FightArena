@@ -28,7 +28,6 @@ public class SpawnOnClick : MonoBehaviour
         }
 
         Vector2 screenPosition = input.ReadValue<Vector2>();
-        Debug.Log("Click pos " + screenPosition);
         Ray ray = _camera.ScreenPointToRay(screenPosition);
         Plane plane = new Plane(Vector3.up, Vector3.zero);
         float distance;

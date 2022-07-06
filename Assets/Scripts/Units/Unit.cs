@@ -10,7 +10,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 {
     [SerializeField] private bool _drawLineToTarget = true;
     [SerializeField] protected Transform _target;
-    [field: SerializeField] public float Speed { get; private set; }
+    [field: SerializeField] public float MoveSpeed { get; private set; }
 
     [SerializeField] protected float _maxHealth = 100;
     [SerializeField] private float _deathDelay = 1f;
@@ -92,7 +92,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
     protected void OnEnable()
     {
         Health = _maxHealth;
-        _agent.speed = Speed;
+        _agent.speed = MoveSpeed;
     }
 
     protected void OnDrawGizmos()

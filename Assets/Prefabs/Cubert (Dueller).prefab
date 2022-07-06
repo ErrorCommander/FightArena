@@ -75,8 +75,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _drawLineToTarget: 0
   _target: {fileID: 0}
-  <Speed>k__BackingField: 10
-  _maxHealth: 100
+  <MoveSpeed>k__BackingField: 10
+  _maxHealth: 200
   _deathDelay: 2
   OnDie:
     m_PersistentCalls:

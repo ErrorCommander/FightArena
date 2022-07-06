@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IMovable
 {
-    public float Speed { get; }
+    public float MoveSpeed { get; }
 
     /// <summary>Send the unit to move to a given point in space.</summary>
     /// <param name="pointTarget">Coordinates of a point in space.</param>

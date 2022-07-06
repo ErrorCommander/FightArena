@@ -22,7 +22,6 @@ public class AttackTargetSetter : MonoBehaviour
             return;
         }
 
-        //Debug.Log(_target);
         _fighter.SetTarget(_target.transform);
         _target.OnDie.AddListener(SetTarget);
     }

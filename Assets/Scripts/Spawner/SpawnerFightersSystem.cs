@@ -18,6 +18,7 @@ public class SpawnerFightersSystem : MonoBehaviour
     private int _indexLastSpawner;
     private uint _indexUnit;
     private float _timer = 0;
+    private int _initPoolSize = 4;
 
     /// <summary>
     /// Add a fighter to be registered in the system
@@ -35,7 +36,7 @@ public class SpawnerFightersSystem : MonoBehaviour
     private void Awake()
     {
         foreach(var unit in _fightersPrefab)
-            Pooler.Instance.AddPool(new Pool(unit.gameObject, 3));
+            Pooler.Instance.AddPool(new Pool(unit.gameObject, _initPoolSize));
     }
 
     private void Start()
