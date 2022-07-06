@@ -86,8 +86,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
         _target = null;
         _agent.speed = 0;
         yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     protected void OnEnable()

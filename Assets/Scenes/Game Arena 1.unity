@@ -2868,6 +2868,8 @@ MonoBehaviour:
   - {fileID: 2728692318583887954, guid: b441516dd13d9394798b5882246ffca7, type: 3}
   _spawnQueue: 1
   _startSpawnCount: 8
+  _isSpawnsOverTime: 1
+  _delaySpawn: 3
   OnSpawnFighter:
     m_PersistentCalls:
       m_Calls: []

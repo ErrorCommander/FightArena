@@ -43,6 +43,7 @@ public class AttackTargetSetter : MonoBehaviour
         if(_target != null)
             _target.OnDie.RemoveListener(SetTarget);
 
+        _targetManager.AddNewTarget.RemoveListener(SetNewTarget);
         _target = null;
     }
 
