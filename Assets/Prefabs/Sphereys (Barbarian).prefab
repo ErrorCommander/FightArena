@@ -89,6 +89,8 @@ MonoBehaviour:
   _baseAttackSpeed: 1.4
   _attackRange: 2
   _drawAttackRange: 1
+  _healValue: 10
+  _damageImprove: 1.7
   _sensor: {fileID: 1517307160180535339}
   FinishingStrike:
     m_PersistentCalls:

@@ -14,8 +14,9 @@ public abstract class Fighter : Unit
     [Tooltip("Draw attack range in UnityEditor")]
     [SerializeField] private bool _drawAttackRange;
     [Header("Bounty for killing")]
-    [SerializeField] private float _healValue = 10;
-    [SerializeField] private float _damageImprove = 2;
+    [SerializeField] [Range(0, 100)] private float _healValue = 10;
+    [SerializeField] [Range(0, 20)] private float _damageImprove = 2;
+    [Header("Unit Sensor")]
     [SerializeField] protected UnitSensor _sensor;
 
     [HideInInspector] public UnityEvent FinishingStrike = new UnityEvent();
