@@ -14,12 +14,11 @@ public class SpawnerBoxArea : MonoBehaviour, ISpawner
     /// </summary>
     /// <param name="prefab">Refeb Fighter for spawn</param>
     /// <returns>Transform created Fighter</returns>
-    public Transform SpawnUnit(Fighter prefab)
+    public Unit SpawnUnit(Unit prefab)
     {
         Vector3 pos = GetSpawnPoint();
-
-        Instantiate(prefab, pos, Quaternion.identity);
-        return transform;
+        Unit unit = Instantiate(prefab, pos, Quaternion.identity);
+        return unit;
     }
 
     private Vector3 GetSpawnPoint()

@@ -2,5 +2,5 @@
 
 public interface ISpawner
 {
-    public Transform SpawnUnit(Fighter prefab);
+    public Unit SpawnUnit(Unit prefab);
 }

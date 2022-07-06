@@ -15,7 +15,6 @@ public abstract class Fighter : Unit
     [Tooltip("Draw attack range in UnityEditor")]
     [SerializeField] private bool _drawAttackRange;
     [SerializeField] protected UnitSensor _sensor;
-    [SerializeField] private Transform _target;
 
     protected bool _canAttack = true;
     protected UnityEvent _readyToAttack = new UnityEvent();
@@ -27,6 +26,7 @@ public abstract class Fighter : Unit
     public void SetTarget(Transform target)
     {
         FollowTo(target);
+        _target = target;
     }
 
     protected abstract void Attack(Unit unit);
@@ -76,9 +76,9 @@ public abstract class Fighter : Unit
         _canAttack = false;
     }
 
-    private void OnEnable()
+    protected new void OnEnable()
     {
-        Health = _maxHealth;
+        base.OnEnable();
         _canAttack = true;
         _sensor.UnitEnter.AddListener(Attack);
         _readyToAttack.AddListener(AttackReadiness);
@@ -94,8 +94,10 @@ public abstract class Fighter : Unit
     }
 
 #if UNITY_EDITOR
-    private void OnDrawGizmos()
+    private new void OnDrawGizmos()
     {
+        base.OnDrawGizmos();
+
         if (_drawAttackRange) 
         {
             UnityEditor.Handles.color = Color.red;

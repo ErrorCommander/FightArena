@@ -2836,6 +2836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1327292434}
   - component: {fileID: 1327292433}
+  - component: {fileID: 1327292435}
   m_Layer: 0
   m_Name: SpawnerSystem
   m_TagString: Untagged
@@ -2867,6 +2868,9 @@ MonoBehaviour:
   - {fileID: 2728692318583887954, guid: b441516dd13d9394798b5882246ffca7, type: 3}
   _spawnQueue: 1
   _startSpawnCount: 8
+  OnSpawnFighter:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1327292434
 Transform:
   m_ObjectHideFlags: 0
@@ -2888,6 +2892,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1327292435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327292432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7958d7670327f24fb88eae9f536fcbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawner: {fileID: 1327292433}
+  AddNewTarget:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1364508966
 GameObject:
   m_ObjectHideFlags: 0
@@ -3496,7 +3516,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.51604164, g: 0.6792453, b: 0.32936987, a: 0.4117647}
+  m_BackGroundColor: {r: 0.68362284, g: 0.7924528, b: 0.5562121, a: 0.4117647}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
