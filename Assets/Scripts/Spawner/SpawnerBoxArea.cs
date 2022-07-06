@@ -9,6 +9,8 @@ public class SpawnerBoxArea : MonoBehaviour, ISpawner
     [SerializeField] private Vector2 _point2;
     [SerializeField] private float _spawnDelay;
 
+    private Pooler _pooler;
+
     /// <summary>
     /// Spawn copy of the prefeb Fighter in certain space
     /// </summary>
@@ -17,8 +19,13 @@ public class SpawnerBoxArea : MonoBehaviour, ISpawner
     public Unit SpawnUnit(Unit prefab)
     {
         Vector3 pos = GetSpawnPoint();
-        Unit unit = Instantiate(prefab, pos, Quaternion.identity);
+        Unit unit = _pooler.Spawn(prefab.gameObject, pos, Quaternion.identity).GetComponent<Unit>();
         return unit;
+    }
+
+    private void Awake()
+    {
+        _pooler = Pooler.Instance;
     }
 
     private Vector3 GetSpawnPoint()

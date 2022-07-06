@@ -18,6 +18,12 @@ public class SpawnerFightersSystem : MonoBehaviour
     private uint _indexUnit;
     private float _timer = 0;
 
+    private void Awake()
+    {
+        foreach(var unit in _fightersPrefab)
+            Pooler.Instance.AddPool(new Pool(unit.gameObject, 3));
+    }
+
     private void Start()
     {
         Spawn(_startSpawnCount);
