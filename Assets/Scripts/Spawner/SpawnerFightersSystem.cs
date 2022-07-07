@@ -13,7 +13,7 @@ public class SpawnerFightersSystem : MonoBehaviour
     [Range(0.2f, 10)] public float DelaySpawn = 3f;
 
     public Fighter SpawnFighter => _fightersPrefab[Random.Range(0, _fightersPrefab.Count)];
-    [HideInInspector] public UnityEvent<Unit> OnSpawnFighter;
+    [HideInInspector] public UnityEvent<Fighter> OnSpawnFighter;
 
     private int _indexLastSpawner;
     private uint _indexUnit;
@@ -60,7 +60,7 @@ public class SpawnerFightersSystem : MonoBehaviour
 
     private void Spawn()
     {
-        Unit result;
+        Fighter result;
 
         switch (_spawnQueue)
         {

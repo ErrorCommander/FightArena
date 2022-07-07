@@ -8,10 +8,10 @@ public class SpawnerBoxArea : SpawnerArea
     [SerializeField] private Vector2 _point1;
     [SerializeField] private Vector2 _point2;
 
-    public override Unit SpawnUnit(Unit prefab)
+    public override Fighter SpawnUnit(Fighter prefab)
     {
         Vector3 pos = GetSpawnPoint();
-        Unit unit = _pooler.Spawn(prefab.gameObject, pos, Quaternion.identity).GetComponent<Unit>();
+        Fighter unit = _pooler.Spawn(prefab.gameObject, pos, Quaternion.identity).GetComponent<Fighter>();
         return unit;
     }
 

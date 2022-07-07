@@ -28,13 +28,23 @@ public abstract class Fighter : Unit
     protected float _attackSpeed;
 
     /// <summary>
-    /// Set the target that the unit will follow and attack
+    /// Set the target that the unit will follow and attack.
     /// </summary>
-    /// <param name="target">Target for follow and attack</param>
-    public void SetTarget(Transform target)
+    /// <param name="target">Target for follow and attack.</param>
+    public void SetTarget(Fighter target)
     {
-        FollowTo(target);
-        _target = target;
+        if (target != null && target.gameObject != gameObject)
+        {
+            FollowTo(target.transform);
+        }
+    }
+
+    /// <summary>
+    /// Remove target for Fighter. Set target null.
+    /// </summary>
+    public void RemoveTarget()
+    {
+        Target = null;
     }
 
     protected abstract void Attack(Unit unit);
@@ -49,7 +59,7 @@ public abstract class Fighter : Unit
 
     protected void DelayAfterAttack()
     {
-        StartCoroutine(TempDisableAttack());
+        StartCoroutine(TimedDisableAttack());
     }
 
     private void AttackReadiness()
@@ -60,7 +70,7 @@ public abstract class Fighter : Unit
 
         foreach (var item in units)
         {
-            if (item.transform == _target)
+            if (item.transform == Target)
             {
                 Attack(item);
             }
@@ -69,7 +79,7 @@ public abstract class Fighter : Unit
         Attack(units[0]);
     }
 
-    private IEnumerator TempDisableAttack()
+    private IEnumerator TimedDisableAttack()
     {
         _canAttack = false;
         yield return new WaitForSeconds(1 / _attackSpeed);
@@ -79,7 +89,7 @@ public abstract class Fighter : Unit
 
     private void StopAttack()
     {
-        StopCoroutine(TempDisableAttack());
+        StopCoroutine(TimedDisableAttack());
         _sensor.UnitEnter.RemoveListener(Attack);
         _readyToAttack.RemoveListener(AttackReadiness);
         _canAttack = false;
@@ -93,14 +103,13 @@ public abstract class Fighter : Unit
 
         SetBaseParametersValue();
         Subscriptions();
-
-        if (_target != null)
-            FollowTo(_target);
     }
 
-    private void OnDisable()
+    protected new void OnDisable()
     {
+        base.OnDisable();
         StopAttack();
+        Target = null;
     }
 
     private void Subscriptions()
@@ -117,6 +126,7 @@ public abstract class Fighter : Unit
         Health = _maxHealth * Random.Range(factorRange.x, factorRange.y);
         //Debug.Log($"{name}  D:{_damage}  AtS:{_attackSpeed}   H:{Health}");
     }
+
     private void Upgrade()
     {
         _damage += _damageImprove;

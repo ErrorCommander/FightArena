@@ -9,7 +9,7 @@ using UnityEngine.Events;
 public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 {
     [SerializeField] private bool _drawLineToTarget = true;
-    [SerializeField] protected Transform _target;
+    [field: SerializeField] public Transform Target { get; protected set; }
     [field: SerializeField] public float MoveSpeed { get; private set; }
 
     [SerializeField] protected float _maxHealth = 100;
@@ -35,6 +35,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
         {
             Health = 0;
             OnDie?.Invoke();
+            OnDie.RemoveAllListeners();
             StartCoroutine(Death(_deathDelay));
             return true;
         }
@@ -49,17 +50,19 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
     public void FollowTo(Transform target)
     {
         StopFollow();
-        if (target != null)
+        if (target != null && gameObject.activeSelf)
         {
-            _target = target;
+            Target = target;
             StartCoroutine(Follow(target));
         }
+
+        Target = null;
     }
 
     public void StopFollow()
     {
-        StopCoroutine(Follow(_target));
-        _target = null;
+        StopCoroutine(Follow(Target));
+        Target = null;
     }
 
     protected void Heal(float value)
@@ -74,24 +77,9 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
         _agent = gameObject.GetComponent<NavMeshAgent>();
     }
 
-    private IEnumerator Follow(Transform target)
+    protected void OnDisable()
     {
-        //yield return null;
-        while (target != null && target.gameObject.activeSelf)
-        {
-            _agent.destination = target.position;
-            yield return null;
-        }
-
-        _agent.destination = transform.position;
-    }
-
-    private IEnumerator Death(float delay)
-    {
-        _target = null;
-        _agent.speed = 0;
-        yield return new WaitForSeconds(delay);
-        gameObject.SetActive(false);
+        StopAllCoroutines();
     }
 
     protected void OnEnable()
@@ -102,10 +90,31 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMovable
 
     protected void OnDrawGizmos()
     {
-        if (_target != null && _drawLineToTarget)
+        if (Target != null && _drawLineToTarget)
         {
             Gizmos.color = Color.white;
-            Gizmos.DrawLine(transform.position, _target.transform.position);
+            Gizmos.DrawLine(transform.position, Target.transform.position);
         }
     }
+
+    private IEnumerator Follow(Transform target)
+    {
+        while (target != null && target.gameObject.activeSelf)
+        {
+            _agent.destination = target.position;
+            yield return new WaitForSeconds(Time.deltaTime * 5);
+        }
+
+        Target = null;
+        _agent.destination = transform.position;
+    }
+
+    private IEnumerator Death(float delay)
+    {
+        Target = null;
+        _agent.speed = 0;
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(false);
+    }
+
 }

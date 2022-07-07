@@ -10,7 +10,7 @@ public abstract class SpawnerArea : MonoBehaviour, ISpawner
     /// </summary>
     /// <param name="prefab">Refeb Fighter for spawn</param>
     /// <returns>Transform created Fighter</returns>
-    public abstract Unit SpawnUnit(Unit prefab);
+    public abstract Fighter SpawnUnit(Fighter prefab);
 
     protected void Awake()
     {

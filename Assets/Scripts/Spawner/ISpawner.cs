@@ -7,5 +7,5 @@ public interface ISpawner
     /// </summary>
     /// <param name="prefab">Refeb Fighter for spawn</param>
     /// <returns>Transform created Fighter</returns>
-    public Unit SpawnUnit(Unit prefab);
+    public Fighter SpawnUnit(Fighter prefab);
 }
